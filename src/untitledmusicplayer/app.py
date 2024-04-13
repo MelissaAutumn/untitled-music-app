@@ -1,9 +1,11 @@
 import json
+import logging
 import pathlib
 import random
 import signal
 import string
 import sys, os
+from datetime import datetime
 
 from PySide6 import QtCore
 from PySide6.QtCore import QUrl
@@ -30,17 +32,17 @@ class QAlbum(QtCore.QObject):
 
 
 def qt_message_handler(mode, context, message):
+    level = logging.DEBUG
     if mode == QtCore.QtMsgType.QtInfoMsg:
-        mode = 'Info'
+        level = logging.INFO
     elif mode == QtCore.QtMsgType.QtWarningMsg:
-        mode = 'Warning'
+        level = logging.WARNING
     elif mode == QtCore.QtMsgType.QtCriticalMsg:
-        mode = 'critical'
+        level = logging.ERROR
     elif mode == QtCore.QtMsgType.QtFatalMsg:
-        mode = 'fatal'
-    else:
-        mode = 'Debug'
-    print("%s: %s (%s:%d, %s)" % (mode, message, context.file, context.line, context.file))
+        level = logging.CRITICAL
+
+    logging.log(level, f"{datetime.now()}: {message} ({context.file}:{context.line}, {context.file})")
 
 
 def main():
