@@ -65,17 +65,22 @@ Kirigami.ApplicationWindow {
                         columnSpacing: Kirigami.Units.largeSpacing
                         columns: width > Kirigami.Units.gridUnit * 20 ? 4 : 2
                         Image {
+                            visible: cardItem.album.images.length > 0
                             source: page.getAlbumImage(cardItem.album)
+                            height: 64
+                            mipmap: true
                             Layout.fillHeight: true
                             Layout.maximumHeight: Kirigami.Units.iconSizes.huge
                             Layout.preferredWidth: height
                         }
-                        //Kirigami.Icon {
-                        //    source: "applications-graphics"
-                        //    Layout.fillHeight: true
-                        //    Layout.maximumHeight: Kirigami.Units.iconSizes.huge
-                        //    Layout.preferredWidth: height
-                        //}
+                        Rectangle {
+                            visible: cardItem.album.images.length === 0
+                            color: 'steelblue'
+                            height: 64
+                            Layout.fillHeight: true
+                            Layout.maximumHeight: Kirigami.Units.iconSizes.huge
+                            Layout.preferredWidth: height
+                        }
                         ColumnLayout {
                             Kirigami.Heading {
                                 level: 2
