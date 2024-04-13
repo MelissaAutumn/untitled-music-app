@@ -5,7 +5,7 @@ a = Analysis(
     ['src/untitledmusicplayer/app.py'],
     pathex=[],
     binaries=[],
-    datas=[('./src/untitledmusicplayer/qml', 'qml')],
+    datas=[('./src/untitledmusicplayer/qml', 'untitledmusicplayer/qml')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
