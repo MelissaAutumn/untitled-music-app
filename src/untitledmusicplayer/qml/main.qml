@@ -36,7 +36,9 @@ Kirigami.ApplicationWindow {
         }
 
         function getAlbumImage(album) {
-
+            if (album.images.length === 0 || album.images[0].type !== 'Primary') {
+                return '';
+            }
             return `${api_url}/Items/${album.id}/Images/Primary`;
         }
 
