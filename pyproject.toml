@@ -1,0 +1,29 @@
+[project]
+name = "untitledmusicplayer"
+version = "0.0.1"
+authors = [
+  { name="Melissa Autumn", email="author@example.com" },
+]
+description = "A small example package"
+readme = "readme.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'requests',
+    'pydantic',
+    'platformdirs',
+    'python-dotenv'
+]
+
+[project.optional-dependencies]
+install = ["pyinstaller"]
+
+[project.urls]
+Homepage = "https://github.com/MelissaAutumn/untitled-music-app"
+Issues = "https://github.com/MelissaAutumn/untitled-music-app/issues"
+
+[project.scripts]
+untitledmusicapp = "untitledmusicplayer.app:main"
