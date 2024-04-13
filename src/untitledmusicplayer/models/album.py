@@ -23,5 +23,5 @@ class Album(BaseModel):
     name: str
     artists: list[ItemRef]
     album_artists: list[ItemRef]
-    images: list[Image]
+    #images: list[Image]
     production_year: int|None

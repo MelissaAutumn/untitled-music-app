@@ -6,18 +6,18 @@ import requests
 
 
 class JellyfinAPI:
-    url: str
-    port: str|int
+    url: str|None
+    port: str|int|None
     ssl: bool
-    auth_header: str
-    username: str
+    auth_header: str|None
+    username: str|None
     access_token: str|None
     user_id: str|None
 
     CLIENT_NAME = "Mels Media Player"
     CLIENT_VERSION = "0.0.1"
 
-    def __init__(self, url:str, port:str|int, ssl:bool = False, username:str = "Unk", access_token = None):
+    def __init__(self, url:str|None = None, port:str|int|None = None, ssl:bool = False, username:str|None = None, access_token = None):
         self.url = url
         self.port = port
         self.ssl = ssl
@@ -41,13 +41,13 @@ class JellyfinAPI:
 
         return ' '.join(header)
 
-    def _api_url(self):
+    def api_url(self):
         protocol = 'https' if self.ssl or self.port == 443 else 'http'
         return f"{protocol}://{self.url}:{self.port}"
 
     def request(self, endpoint: str, method: str = 'GET', data=None) -> requests.Response:
         """Generic request method, prefixes all endpoints with the proper server url, and appends the proper auth header."""
-        print("Calling ", f"{self._api_url()}/{endpoint}", " with ", data)
+        print("Calling ", f"{self.api_url()}/{endpoint}", " with ", data)
         print("Headers: ", self._auth_headers())
 
         params = None
@@ -57,7 +57,7 @@ class JellyfinAPI:
         else:
             json = data
 
-        return requests.request(method, f"{self._api_url()}/{endpoint}", json=json, params=params, headers={
+        return requests.request(method, f"{self.api_url()}/{endpoint}", json=json, params=params, headers={
             'Authorization': self._auth_headers()
         })
 
@@ -66,7 +66,9 @@ class JellyfinAPI:
 
     def auth(self):
         """Initiates an authentication request via QuickConnect."""
-        return self.request('QuickConnect/Initiate', method='GET').json()
+        response = self.request('QuickConnect/Initiate', method='GET')
+        response.raise_for_status()
+        return response.json()
 
     def auth_confirm(self, secret_code):
         """Confirms the request was authenticated properly, and retrieves user and access token details from the server."""
@@ -95,6 +97,9 @@ class JellyfinAPI:
         print("Success->", data)
 
         self.access_token = data.get('AccessToken')
+
+        # Grab the user id!
+        self.get_me()
 
         return True
 
@@ -149,3 +154,7 @@ class JellyfinAPI:
         response = self.request(f'Items/{item_id}/Images')
         response.raise_for_status()
         return response.json()
+
+
+# Temp export :^)
+jellyfin_api = JellyfinAPI()
