@@ -16,6 +16,11 @@ class JellyfinAPIBridge(QObject):
         super().__init__()
 
     onAlbumsChange = Signal()
+    onAuthenticationChange = Signal()
+
+    @Property(bool, notify=onAuthenticationChange)
+    def isAuthenticated(self):
+        return bool(jellyfin_api.access_token)
 
     @Property(str, constant=True)
     def getAPIUrl(self):

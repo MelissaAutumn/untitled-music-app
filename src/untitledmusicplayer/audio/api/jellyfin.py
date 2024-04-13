@@ -104,6 +104,11 @@ class JellyfinAPI:
         return True
 
 
+    def reauth(self):
+        """Hack until I re-organize this file"""
+        self.get_me()
+        return True
+
     """
     User
     """

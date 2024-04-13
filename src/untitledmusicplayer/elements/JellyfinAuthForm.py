@@ -1,6 +1,7 @@
 from PySide6.QtCore import QObject, Slot, Signal, Property
 from PySide6.QtQml import QmlElement
 
+from untitledmusicplayer import config
 from untitledmusicplayer.audio.api.jellyfin import jellyfin_api
 
 QML_IMPORT_NAME = "JellyfinAuthForm"
@@ -45,4 +46,9 @@ class JellyfinAuthForm(QObject):
     @Slot(result=bool)
     def confirm(self):
         """Finalize the quick connect process"""
-        return jellyfin_api.auth_confirm(self.qcSecret)
+        success = jellyfin_api.auth_confirm(self.qcSecret)
+
+        if success:
+            config.save_server_creds(jellyfin_api.url, jellyfin_api.port, jellyfin_api.username, jellyfin_api.access_token)
+
+        return success

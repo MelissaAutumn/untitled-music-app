@@ -6,18 +6,18 @@ import com.melissaautumn.jellyfinAuthForm
 
 Item {
     id: container
-    anchors.fill: parent
+
 
     JellyfinAuthForm {
         id: jellyfinAuthForm
     }
 
     Kirigami.Page {
-
-
+        anchors.fill: parent
         Kirigami.FormLayout {
-
             id: layout
+        anchors.fill: parent
+
             QQC2.Label {
                 text: qsTr("Please enter your Jellyfin Server Details:")
             }
@@ -26,7 +26,7 @@ Item {
 
                 Kirigami.FormData.label: "Server Host"
                 focus: true
-                text: 'goblinhoard.local'
+                text: 'localhost'
             }
             QQC2.TextField {
                 id: port
@@ -38,7 +38,7 @@ Item {
                 id: username
 
                 Kirigami.FormData.label: "Server Username"
-                text: 'Mel'
+                text: ''
             }
             QQC2.Button {
                 text: qsTr("Quick Connect")
