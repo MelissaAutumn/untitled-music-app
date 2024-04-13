@@ -1,0 +1,67 @@
+# This workflow will install backend's requirements and run tests
+
+name: Build Untitled Music App
+
+on:
+  push:
+    branches: [gh]
+  pull_request:
+    branches: [gh]
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install .'[install]'
+
+    - name: Run pyinstaller
+      run: python -m pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: linux-app
+        path: dist/app
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - run: choco install python3 --version=3.11
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install .'[install]'
+        python3 -m pip install --upgrade certifi
+        python3 -m pip install pyside6
+
+    - name: Install craft...
+      run: |
+        Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+        iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/KDE/craft/master/setup/install_craft.ps1'))
+        C:\CraftRoot\craft\craftenv.ps1
+        craft kirigami kcoreaddons ki18n breeze kiconthemes qqc2-desktop-style
+
+    - name: Run pyinstaller
+      run: python -m pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: windows-app
+        path: dist/app
