@@ -18,6 +18,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install Qt6/Kirigami
+      run: sudo apt install build-essential cmake extra-cmake-modules qt-base5-dev qt6-declarative-dev kirigami2-dev libkf6i18n-dev gettext libkf5coreaddons-dev qml-module-org-kde-qqc2desktopstyle
+
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -30,7 +34,7 @@ jobs:
         python -m pip install .'[install]'
 
     - name: Run pyinstaller
-      run: python -m pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
+      run: pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
 
     - uses: actions/upload-artifact@v4
       with:
@@ -42,7 +46,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: choco install python3 --version=3.11
+    - run: python3 -v
+
+    #- run: choco install python3 --version=3.11
 
     - name: Install dependencies
       run: |
