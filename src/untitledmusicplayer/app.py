@@ -68,10 +68,6 @@ def main():
     else:
         logging.info("No credentials found, will serve welcome page.")
 
-    """Needed to get proper KDE style outside of Plasma"""
-    if not os.environ.get("QT_QUICK_CONTROLS_STYLE"):
-        os.environ["QT_QUICK_CONTROLS_STYLE"] = "org.kde.desktop"
-
     QtCore.qInstallMessageHandler(qt_message_handler)
     app = QApplication(sys.argv)
     engine = QQmlApplicationEngine()

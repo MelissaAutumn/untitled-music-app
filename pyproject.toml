@@ -15,7 +15,8 @@ dependencies = [
     'requests',
     'pydantic',
     'platformdirs',
-    'python-dotenv'
+    'python-dotenv',
+    'pyside6',
 ]
 
 [project.optional-dependencies]
