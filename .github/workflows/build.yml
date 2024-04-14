@@ -48,8 +48,9 @@ jobs:
         python3 -m pip install .'[install]'
         python3 -m pip install --upgrade certifi
 
+
     - name: Run pyinstaller
-      run: python -m pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
+      run: python3 -m PyInstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
 
     - uses: actions/upload-artifact@v4
       with:
