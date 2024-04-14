@@ -1,38 +1,18 @@
 import QtQuick
-import QtQuick.Controls as QQC2
+import QtQuick.Controls
 import QtQuick.Layouts
-import org.kde.kirigami as Kirigami
 
-Kirigami.ScrollablePage {
-        id: page
+Page {
+    id: page
 
-        title: qsTr("Album List Test")
+    function getAlbumImage(album) {
+        //if (album.images.length === 0 || album.images[0].type !== 'Primary') {
+        //    return '';
+        //}
+        return `${jellyfinAPI.getAPIUrl}/Items/${album.id}/Images/Primary`;
+    }
 
-        /*
-        actions.main: Kirigami.Action {
-            icon.name: "documentinfo"
-            text: qsTr("Info")
-            checkable: true
-            onCheckedChanged: sheet.visible = checked;
-            shortcut: "Alt+I"
-        }
-         */
-
-        //Close the drawer with the back button
-        onBackRequested: {
-            if (sheet.sheetOpen) {
-                event.accepted = true;
-                sheet.close();
-            }
-        }
-
-        function getAlbumImage(album) {
-            //if (album.images.length === 0 || album.images[0].type !== 'Primary') {
-            //    return '';
-            //}
-            return `${jellyfinAPI.getAPIUrl}/Items/${album.id}/Images/Primary`;
-        }
-
+    /*
         Kirigami.CardsListView {
             id: view
             model: jellyfinAPI.getAlbums.length
@@ -98,4 +78,90 @@ Kirigami.ScrollablePage {
                 }
             }
         }
+
+ */
+
+    title: qsTr("Album List Test")
+
+    /*
+        actions.main: Kirigami.Action {
+            icon.name: "documentinfo"
+            text: qsTr("Info")
+            checkable: true
+            onCheckedChanged: sheet.visible = checked;
+            shortcut: "Alt+I"
+        }
+         */
+    /*
+        //Close the drawer with the back button
+    onBackRequested: {
+        if (sheet.sheetOpen) {
+            event.accepted = true;
+            sheet.close();
+        }
     }
+*/
+
+    ScrollView {
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        clip: true                   // Prevent drawing column outside the scrollview borders
+
+        contentHeight: delegateLayout.height  // Same
+        contentWidth: delegateLayout.width    // The important part
+        height: root.height
+        width: root.width
+
+        ListView {
+            contentHeight: delegateLayout.height  // Same
+            contentWidth: delegateLayout.width    // The important part
+            model: jellyfinAPI.getAlbums.length
+
+            delegate: ItemDelegate {
+                property var album: jellyfinAPI.getAlbums[index]
+                required property int index
+
+                height: 128
+                width: root.width
+
+                RowLayout {
+                    id: delegateLayout
+
+                    anchors.fill: parent
+                    spacing: 8
+
+                    Image {
+                        Layout.maximumHeight: 64
+                        Layout.maximumWidth: 64
+                        //Layout.fillHeight: true
+                        //Layout.preferredWidth: height
+                        height: 64
+                        mipmap: true
+                        source: page.getAlbumImage(album)
+                        visible: true //cardItem.album.images.length > 0
+                        width: 64
+                    }
+                    ColumnLayout {
+                        //anchors.fill: parent
+                        spacing: 8
+
+                        Label {
+                            text: album.name
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            text: album.album_artists?.map(artist => artist.name).join(', ')
+                            wrapMode: Text.WordWrap
+                        }
+                    }
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        //IMPORTANT: never put the bottom margin
+                        top: parent.top
+                    }
+                }
+            }
+        }
+    }
+}
