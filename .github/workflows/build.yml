@@ -52,8 +52,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade certifi
-        python3 -m pip install .
-        python3 -m pip install pyinstaller
+        python3 -m pip install .'[install]'
 
     - name: Run pyinstaller
       run: pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
