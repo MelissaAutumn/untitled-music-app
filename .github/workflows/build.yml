@@ -18,10 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Qt6/Kirigami
-      run: sudo apt install build-essential cmake extra-cmake-modules qt-base5-dev qt6-declarative-dev kirigami2-dev libkf6i18n-dev gettext libkf5coreaddons-dev qml-module-org-kde-qqc2desktopstyle
-
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -46,23 +42,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - run: python3 -v
-
-    #- run: choco install python3 --version=3.11
-
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install .'[install]'
         python3 -m pip install --upgrade certifi
-        python3 -m pip install pyside6
-
-    - name: Install craft...
-      run: |
-        Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-        iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/KDE/craft/master/setup/install_craft.ps1'))
-        C:\CraftRoot\craft\craftenv.ps1
-        craft kirigami kcoreaddons ki18n breeze kiconthemes qqc2-desktop-style
 
     - name: Run pyinstaller
       run: python -m pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
