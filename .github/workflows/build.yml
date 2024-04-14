@@ -45,12 +45,12 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        python3 -m pip install .'[install]'
         python3 -m pip install --upgrade certifi
+        python3 -m pip install .'[install]'
 
 
     - name: Run pyinstaller
-      run: python3 -m PyInstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
+      run: pyinstaller --add-data ./src/untitledmusicplayer/qml:untitledmusicplayer/qml ./src/untitledmusicplayer/app.py
 
     - uses: actions/upload-artifact@v4
       with:
