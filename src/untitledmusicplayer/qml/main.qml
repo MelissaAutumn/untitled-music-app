@@ -39,9 +39,10 @@ ApplicationWindow {
         showInitialPage();
     }
 
+
     StackView {
         id: pageStack
-
+        padding: 10
         anchors.fill: parent
     }
     JellyfinAPIBridge {

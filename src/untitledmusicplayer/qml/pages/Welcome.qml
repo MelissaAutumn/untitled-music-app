@@ -1,46 +1,64 @@
 // "BasicPage.qml"
 import QtQuick
-import QtQuick.Controls as QQC2
-import org.kde.kirigami as Kirigami
+import QtQuick.Controls
+import QtQuick.Layouts
+
 import com.melissaautumn.jellyfinAuthForm
 
 Item {
     id: container
 
-
     JellyfinAuthForm {
         id: jellyfinAuthForm
+
     }
+    Page {
+        id: page
 
-    Kirigami.Page {
         anchors.fill: parent
-        Kirigami.FormLayout {
+
+        GridLayout {
             id: layout
-        anchors.fill: parent
+            columns: 2
 
-            QQC2.Label {
+            Label {
                 text: qsTr("Please enter your Jellyfin Server Details:")
+                Layout.columnSpan: 2
             }
-            QQC2.TextField {
-                id: hostname
 
-                Kirigami.FormData.label: "Server Host"
+            Label {
+                text: qsTr("Server Host")
+                Layout.fillWidth: true
+            }
+            TextField {
+                id: hostname
                 focus: true
                 text: 'localhost'
             }
-            QQC2.TextField {
+
+            Label {
+                text: qsTr("Server Port")
+                Layout.fillWidth: true
+            }
+            TextField {
                 id: port
 
-                Kirigami.FormData.label: "Server Port"
+                placeholderText: "Server Port"
                 text: '8096'
             }
-            QQC2.TextField {
+
+            Label {
+                text: qsTr("Server Username")
+                Layout.fillWidth: true
+            }
+            TextField {
                 id: username
 
-                Kirigami.FormData.label: "Server Username"
+                placeholderText: "Server Username"
                 text: ''
             }
-            QQC2.Button {
+            Button {
+                Layout.columnSpan: 2
                 text: qsTr("Quick Connect")
 
                 onClicked: function () {
@@ -55,19 +73,20 @@ Item {
     Component {
         id: quickConnectStep
 
-        Kirigami.Page {
-            Kirigami.FormLayout {
+        Page {
+            ColumnLayout {
                 id: quickConnectForm
 
-                QQC2.Label {
+                Label {
                     text: qsTr("Please enter the following code into Quick Connect")
                 }
-                QQC2.Label {
+                Label {
                     id: codeLabel
-
+                    font.pointSize: 20
+                    font.weight: Font.DemiBold
                     text: jellyfinAuthForm.quickConnectCode
                 }
-                QQC2.Button {
+                Button {
                     text: qsTr("Quick Connect")
 
                     onClicked: function () {
