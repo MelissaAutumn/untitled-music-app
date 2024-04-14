@@ -64,7 +64,6 @@ Page {
                         height: parent.height
                         hoverEnabled: true
                         onEntered: {
-                            console.log('im in')
                             parent.color = myPalette.accent
                         }
                         onExited: {
